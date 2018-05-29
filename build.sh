@@ -106,12 +106,12 @@ function build_libsodium {
   }
 
 function build_boost {
-
   # sample:
   # less $(find . -name user-config.jam)
   # background:
   # http://robmakesapps.blogspot.com/2017/06/how-to-build-boost-1640-for-android.html
   # https://stackoverflow.com/questions/37679587/how-to-compile-boost-1-61-for-android-ndk-11
+  # https://stackoverflow.com/questions/35839127/how-to-build-boost-for-android-as-shared-library-with-c11-support
 
   echo "boost config build ..."
   USER_CONFIG="user-config.jam"
@@ -121,13 +121,27 @@ tool_chains = ${INSTALL_PATH} ;
 using clang : ${ARCH} :
   ${INSTALL_PATH}/bin/${CXX} :
 #  <compileflags>-DNDEBUG
+  <compileflags>-DANDROID
+  <compileflags>-D__ANDROID__
   <compileflags>--sysroot=${INSTALL_PATH}/sysroot
   <compileflags>-O2
   <compileflags>-fexceptions
   <compileflags>-frtti
 #  <compileflags>-fno-strict-aliasing
-  <compileflags>-DANDROID
-  <compileflags>-D__ANDROID__
+#  <compileflags>-fdata-sections
+#  <compileflags>-ffunction-sections
+#  <compileflags>-fstack-protector
+#  <compileflags>-no-canonical-prefixes
+#  <compileflags>-funwind-tables
+#  <compileflags>-fomit-frame-pointer
+#  <compileflags>-finline-limit=64
+#  <compileflags>-Wa,--noexecstack
+#  <compileflags>-fvisibility=hidden
+#  <compileflags>-fvisibility-inlines-hidden
+#  <compileflags>-finline-limit=64
+#  <compileflags>-Wformat
+#  <compileflags>-Werror=format-security
+#  <compileflags>-Wl,--no-undefined
   ;
 EOF
 
